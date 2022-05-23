@@ -4,7 +4,7 @@
 #' @return a stub data structure
 #' @importFrom RProtoBuf readProtoFiles
 #' @export
-read_services <- function(file){
+read_services <- function(file, protoPath = c()){
   SERVICE = "service"
   RPC = "rpc"
   RETURNS = "returns"
@@ -55,9 +55,15 @@ read_services <- function(file){
     return(i)
   }
 
-  readProtoFiles(file)
+  readProtoFiles2(file, protoPath = protoPath)
 
   lines <- readLines(file)
+  line <- paste0(lines, collapse = '\n')
+  line <-line %>% gsub(pattern = '\\[.*?\\]', replacement = '') %>% 
+    gsub(pattern = '(option \\(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema\\))(.*?)(\\};)', replacement = '') %>% 
+    gsub(pattern = '(option \\(google.api.http\\))(.*?)(\\};)', replacement = '') %>% 
+    gsub(pattern = '(option \\(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation\\))(.*?)(\\};)', replacement = '')
+  lines <- line %>% strsplit(split = '\n') %>% unlist
 
   tokens <- Filter(f=nchar, unlist(strsplit(lines, '(^//.*$|\\s+|(?=[{}();]))', perl=TRUE)))
 
