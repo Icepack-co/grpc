@@ -1,4 +1,11 @@
-CXX_STD = CXX11
-PKG_LIBS = `pkg-config --libs grpc`
-PKG_CXXFLAGS = `pkg-config --cflags grpc`
+CXX = g++-4.8.1
+CXX_STD = CXX17
+PKG_LIBS = /usr/local/lib/libssl.so -lgrpc 
 
+
+.PHONY: all
+
+# if you're having issues with OPENSSL_free not being found, check that it's compiled to link to 
+# the package installed on your OS and not the local dependencies that grpc ships with.
+# i.e
+# cmake -DBUILD_SHARED_LIBS=ON -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DgRPC_SSL_PROVIDER=package ..  

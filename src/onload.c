@@ -8,5 +8,5 @@ void R_init_grpc(DllInfo *info){
 
 void R_unload_grpc(DllInfo *info){
   
-  grpc_shutdown();
+   grpc_shutdown();
 }

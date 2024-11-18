@@ -75,7 +75,7 @@ List run(List target, CharacterVector hoststring, List hooks) {
   
   RGRPC_LOG("Bind");
 
-  int port = grpc_server_add_insecure_http2_port(server, hoststring[0]);
+  int port = grpc_server_add_http2_port(server, hoststring[0], NULL);
   params["port"] = port;
   runFunctionIfProvided(hooks, "bind", params);
 
